@@ -10,13 +10,13 @@ mongoose.connect(
     { useNewUrlParser: true },
     function(err, db) {
         assert.equal(null, err);
-        console.log("Connected successfully to database");
+        // console.log("Connected successfully to database");
 
         // db.close(); turn on for testing
     }
 );
 
 mongoose.connection.on("error", console.error.bind(console, "MongoDB connection Error:"));
-mongoose.set("debug", true);
+mongoose.set("debug", false);
 
 export default mongoose.connection
