@@ -29,33 +29,33 @@ chai.use(chaiHttp);
 describe('site', function() {
 
     // setup a country
-    before(function() {
-        const res = await chai.request(server)
+    before(async function() {
+        const country = await chai.request(server)
             .post('/countries')
             .send(testCountry)
             .catch(err => {
                 return err
             });
-        res.status.should.be.equal(200);
-        res.should.be.json;
+        country.status.should.be.equal(200);
+        country.should.be.json;
 
-        const res = await chai.request(server)
+        const year = await chai.request(server)
             .post(`/country/${testCountry.code}/year`)
             .send(testYear)
             .catch(err => { return err });
-        res.status.should.be.equal(200);
-        res.should.be.json;
+        year.status.should.be.equal(200);
+        year.should.be.json;
     })
 
     // delete our test country
-    after(function() {
-        const res = await chai.request(server).delete(`/country/${testCountry.code}`);
-        res.status.should.be.equal(200);
-        res.should.be.json;
+    after(async function() {
+        const country = await chai.request(server).delete(`/country/${testCountry.code}`);
+        country.status.should.be.equal(200);
+        country.should.be.json;
 
-        const res = await chai.request(server).delete(`/country/${testCountry.code}/year/${testYear.year}`);
-        res.status.should.be.equal(200);
-        res.should.be.json;
+        const year = await chai.request(server).delete(`/country/${testCountry.code}/year/${testYear.year}`);
+        year.status.should.be.equal(200);
+        year.should.be.json;
     })
 
     // Create

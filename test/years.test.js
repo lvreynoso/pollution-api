@@ -20,7 +20,7 @@ chai.use(chaiHttp);
 describe('site', function() {
 
     // setup a country
-    before(function() {
+    before(async function() {
         const res = await chai.request(server)
             .post('/countries')
             .send(testCountry)
@@ -30,7 +30,7 @@ describe('site', function() {
     })
 
     // delete our test country
-    after(function() {
+    after(async function() {
         const res = await chai.request(server).delete(`/country/${testCountry.code}`);
         res.status.should.be.equal(200);
         res.should.be.json;

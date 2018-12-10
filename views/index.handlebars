@@ -1,4 +1,4 @@
 <!-- index.handlebars -->
 <div class="container">
-    <h1>Server online!</h1>
+    <h1>Server online!{{#if currentUser}} Hello, {{currentUser.username}}!{{/if}}</h1>
 </div>
