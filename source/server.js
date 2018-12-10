@@ -13,6 +13,7 @@ import cookieParser from 'cookie-parser'
 
 // controllers
 import index from './controllers/index.js'
+import auth from './controllers/auth.js'
 
 // db and models
 import database from './database/database.js'
@@ -21,9 +22,10 @@ import database from './database/database.js'
 import exphbsConfig from './config/exphbs-config.js'
 const exphbs = handlebars.create(exphbsConfig);
 
-// whatevers
+// middlewares
 import checkAuth from './lib/check-auth.js'
 import checkCookie from './lib/check-cookie.js'
+import checkApiKey from './lib/check-api-key.js'
 
 // set our express options
 const app = express();
@@ -42,13 +44,14 @@ app.engine('handlebars', exphbs.engine);
 app.set('view engine', 'handlebars');
 
 // routes
-app.use('/', index)
+app.use(index);
+app.use(auth);
 
 // face the world
-const hotPort = app.get('port')
+const hotPort = app.get('port');
 const server = app.listen(hotPort, () => {
     console.log(`App listening on port ${hotPort}!`)
-})
+});
 
 // for Mocha/Chai test purposes
 export default server;

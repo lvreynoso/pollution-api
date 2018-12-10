@@ -77,7 +77,7 @@ describe('site', function() {
         res.should.be.json;
     });
 
-    // Update. Wat.
+    // Update
     it('Should be able to update a pollutant', async function() {
         const updatedTestPollutant = {
             name: 'Carbon Dioxide',

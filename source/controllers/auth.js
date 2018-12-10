@@ -7,17 +7,32 @@ const auth = express.Router()
 
 // models
 import User from '../models/user.js'
+import Keys from '../models/Keys.js'
+
+// api generator
+import generateAPIKey from '../lib/generate-api-key.js'
 
 auth.get('/sign-up', (req, res) => {
     res.render('sign-up');
 })
 
 auth.post('/sign-up', async (req, res) => {
-    const user = new User(req.body);
+    let user = new User(req.body);
+    const newAPIKey = await generateAPIKey().catch(err => {
+        console.log(err);
+    });
+    console.log(newAPIKey);
+    user.key = newAPIKey.toString();
+    console.log(user);
     const result = await user.save().catch(err => {
         console.log(err);
         return res.status(400).send({ err: err })
     });
+
+    const masterKey = await Keys.findOne({ level: 'master' });
+    const masterList = masterKey.list;
+    masterList.set(newAPIKey, true);
+
     const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: `60 days` });
     res.cookie(`nToken`, token, { maxAge: 900000, httpOnly: true });
     res.redirect(`/`);
@@ -55,6 +70,20 @@ auth.post(`/login`, async (req, res) => {
         res.cookie(`nToken`, token, { maxAge: 900000, httpOnly: true });
         res.redirect(`/`);
     })
+})
+
+auth.get('/admin', async (req, res) => {
+    let result = { message: "Nothing" }
+    const masterKey = await Keys.findOne({ level: 'master' });
+    console.log(masterKey);
+    if (!masterKey) {
+        let newMasterKey = new Keys({ level: 'master' });
+        newMasterKey.save().catch(err => { console.log(err) });
+        result.message = "New master key list created!"
+    } else {
+        result.message = "Preexisting master key list found!"
+    }
+    res.render('admin', { result: result });
 })
 
 export default auth;
