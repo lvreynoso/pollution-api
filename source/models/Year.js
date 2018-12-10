@@ -5,9 +5,10 @@ const Schema = mongoose.Schema;
 
 const YearSchema = new Schema({
     year: { type: Number, required: true },
-    country: { type: String, required: true },
+    country: { type: Schema.Types.ObjectId, ref: "Country", required: true },
+    code: { type: String, required: true },
     pollutants: [{ type: Schema.Types.ObjectId, ref: "Pollutant" }]
 });
 
-const Year = mongoose.model('Year'. YearSchema);
+const Year = mongoose.model('Year', YearSchema);
 export default Year;

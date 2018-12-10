@@ -1,4 +1,10 @@
 <!-- index.handlebars -->
 <div class="container">
-    <h1>Server online!{{#if currentUser}} Hello, {{currentUser.username}}!{{/if}}</h1>
+    <h1>Server online!</h1>
+    {{#if currentUser}}
+    <p>You are logged in.</p>
+    <p>{{currentUser}}</p>
+    {{else}}
+    <p>You are logged out.</p>
+    {{/if}}
 </div>

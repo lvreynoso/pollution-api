@@ -18,20 +18,25 @@ auth.get('/sign-up', (req, res) => {
 
 auth.post('/sign-up', async (req, res) => {
     let user = new User(req.body);
-    const newAPIKey = await generateAPIKey().catch(err => {
+    let newAPIKey = await generateAPIKey().catch(err => {
         console.log(err);
     });
-    console.log(newAPIKey);
-    user.key = newAPIKey.toString();
+    // very important that we use it as a string
+    newAPIKey = newAPIKey.toString()
+    user.key = newAPIKey
     console.log(user);
     const result = await user.save().catch(err => {
         console.log(err);
         return res.status(400).send({ err: err })
     });
 
-    const masterKey = await Keys.findOne({ level: 'master' });
-    const masterList = masterKey.list;
-    masterList.set(newAPIKey, true);
+    const masterKey = await Keys.findOne({ level: 'master' }).catch(err => {
+        console.log(err);
+        return res.status(500).send({ err: err })
+    });
+    masterKey.list.set(newAPIKey, true);
+
+    masterKey.save();
 
     const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: `60 days` });
     res.cookie(`nToken`, token, { maxAge: 900000, httpOnly: true });

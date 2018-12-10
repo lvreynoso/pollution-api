@@ -14,6 +14,9 @@ import cookieParser from 'cookie-parser'
 // controllers
 import index from './controllers/index.js'
 import auth from './controllers/auth.js'
+import countries from './controllers/countries.js'
+import years from './controllers/years.js'
+import pollutants from './controllers/pollutants.js'
 
 // db and models
 import database from './database/database.js'
@@ -43,9 +46,14 @@ app.use(checkCookie);
 app.engine('handlebars', exphbs.engine);
 app.set('view engine', 'handlebars');
 
+// middlewares
+app.use('/country', checkApiKey)
+
 // routes
 app.use(index);
 app.use(auth);
+app.use(countries);
+app.use(years);
 
 // face the world
 const hotPort = app.get('port');
