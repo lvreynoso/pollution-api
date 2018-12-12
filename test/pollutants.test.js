@@ -20,7 +20,6 @@ before(function() {
 // these are Canada 2016 numbers
 const testPollutant = {
     name: 'Carbon Dioxide',
-    slug: 'carbon-dioxide',
     code: 'CO2',
     total: 675918.61, // kton CO2
     perCapita: 18.62, // ton CO2 per person
@@ -36,12 +35,12 @@ const testCountry = {
 
 chai.use(chaiHttp);
 
-describe.skip('site', function() {
+describe('site', function() {
 
     // setup a country
     before(async function() {
         const country = await chai.request(server)
-            .post(`/countries?key=${TEST_API_KEY}`)
+            .post(`/country?key=${TEST_API_KEY}`)
             .send(testCountry)
             .catch(err => {
                 return err
@@ -76,8 +75,14 @@ describe.skip('site', function() {
             .catch(err => {
                 return err
             });
+
+        // console.log(testPollutant);
+        // console.log(res.body, res.status);
+
         res.status.should.be.equal(200);
         res.should.be.json;
+        res.body.should.have.property('slug');
+        testPollutant.slug = res.body.slug;
     });
 
     // Read
@@ -91,7 +96,6 @@ describe.skip('site', function() {
     it('Should be able to update a pollutant', async function() {
         const updatedTestPollutant = {
             name: 'Carbon Dioxide',
-            slug: 'carbon-dioxide',
             code: 'CO2',
             total: 675918.61, // kton CO2
             perCapita: 18.49, // ton CO2 per person
@@ -99,14 +103,14 @@ describe.skip('site', function() {
         }
         const res = await chai.request(server)
             .put(`/country/${testCountry.code}/year/${testYear.year}/pollutant/${testPollutant.slug}?key=${TEST_API_KEY}`)
-            .send(updatedTestYear)
+            .send(updatedTestPollutant)
             .catch(err => {
                 return err
             });
         res.status.should.be.equal(200);
         res.should.be.json;
-        res.should.have.property('perCapita');
-        res.perCapita.should.be.equal(18.49);
+        res.body.should.have.property('perCapita');
+        res.body.perCapita.should.be.equal(18.49);
     });
 
     // Delete

@@ -52,7 +52,7 @@ countries.delete('/country/:code', async (req, res) => {
     let query = {
         code: req.params.code
     }
-    let result = Country.findOneAndDelete(query).catch(err => {
+    let result = await Country.findOneAndDelete(query).catch(err => {
         console.log(err);
         return res.status(404);
     })

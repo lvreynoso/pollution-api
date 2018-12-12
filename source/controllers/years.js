@@ -14,7 +14,7 @@ years.get('/country/:code/year/:year', async (req, res) => {
         year: req.params.year,
         code: req.params.code
     }
-    let year = await Year.findOne(query).catch(err => {
+    let year = await Year.findOne(query).populate('pollutants').catch(err => {
         console.log(err);
         res.status(404).send(err);
     })
@@ -76,7 +76,7 @@ years.delete('/country/:code/year/:year', async (req, res) => {
         year: req.params.year,
         code: req.params.code,
     }
-    let result = Year.findOneAndDelete(query).catch(err => {
+    let result = await Year.findOneAndDelete(query).catch(err => {
         console.log(err);
         res.status(404).send(err);
     })

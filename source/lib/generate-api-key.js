@@ -8,7 +8,7 @@
 |
 | The following code generates a random, unique hexadecimal string that can be
 | to uniquely identify an object, like a user api key.
-| The code comes from a kind comment at https://gist.github.com/jed/982883
+| The code is based off of a kind comment at https://gist.github.com/jed/982883
 |
 */
 

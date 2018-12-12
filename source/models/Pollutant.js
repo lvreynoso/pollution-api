@@ -10,7 +10,8 @@ const PollutantSchema = new Schema({
     total: { type: Number, required: false },
     perCapita: { type: Number, required: false },
     perGDP: { type: Number, required: false },
-    year: { type: Number, required: true }
+    year: { type: Number, required: true },
+    countryCode: { type: String, required: true }
 })
 
 const Pollutant = mongoose.model('Pollutant', PollutantSchema);

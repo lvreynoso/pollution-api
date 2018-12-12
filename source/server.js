@@ -54,6 +54,7 @@ app.use(index);
 app.use(auth);
 app.use(countries);
 app.use(years);
+app.use(pollutants);
 
 // face the world
 const hotPort = app.get('port');
