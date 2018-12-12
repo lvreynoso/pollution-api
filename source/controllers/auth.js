@@ -77,18 +77,4 @@ auth.post(`/login`, async (req, res) => {
     })
 })
 
-auth.get('/admin', async (req, res) => {
-    let result = { message: "Nothing" }
-    const masterKey = await Keys.findOne({ level: 'master' });
-    console.log(masterKey);
-    if (!masterKey) {
-        let newMasterKey = new Keys({ level: 'master' });
-        newMasterKey.save().catch(err => { console.log(err) });
-        result.message = "New master key list created!"
-    } else {
-        result.message = "Preexisting master key list found!"
-    }
-    res.render('admin', { result: result });
-})
-
 export default auth;

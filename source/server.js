@@ -29,6 +29,7 @@ const exphbs = handlebars.create(exphbsConfig);
 import checkAuth from './lib/check-auth.js'
 import checkCookie from './lib/check-cookie.js'
 import checkApiKey from './lib/check-api-key.js'
+import checkMasterList from './lib/check-master-list.js'
 
 // set our express options
 const app = express();
@@ -45,6 +46,9 @@ app.use(checkCookie);
 // set our view engine
 app.engine('handlebars', exphbs.engine);
 app.set('view engine', 'handlebars');
+
+// check our list of api keys
+checkMasterList();
 
 // middlewares
 app.use('/country', checkApiKey)
