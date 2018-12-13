@@ -19,6 +19,14 @@ var _cookieParser = _interopRequireDefault(require("cookie-parser"));
 
 var _index = _interopRequireDefault(require("./controllers/index.js"));
 
+var _auth = _interopRequireDefault(require("./controllers/auth.js"));
+
+var _countries = _interopRequireDefault(require("./controllers/countries.js"));
+
+var _years = _interopRequireDefault(require("./controllers/years.js"));
+
+var _pollutants = _interopRequireDefault(require("./controllers/pollutants.js"));
+
 var _database = _interopRequireDefault(require("./database/database.js"));
 
 var _exphbsConfig = _interopRequireDefault(require("./config/exphbs-config.js"));
@@ -27,11 +35,15 @@ var _checkAuth = _interopRequireDefault(require("./lib/check-auth.js"));
 
 var _checkCookie = _interopRequireDefault(require("./lib/check-cookie.js"));
 
+var _checkApiKey = _interopRequireDefault(require("./lib/check-api-key.js"));
+
+var _checkMasterList = _interopRequireDefault(require("./lib/check-master-list.js"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const result = process.env.NODE_ENV == 'development' ? _dotenv.default.config() : false; // dependencies
 
-const exphbs = _expressHandlebars.default.create(_exphbsConfig.default); // whatevers
+const exphbs = _expressHandlebars.default.create(_exphbsConfig.default); // middlewares
 
 
 // set our express options
@@ -47,9 +59,18 @@ app.use((0, _cookieParser.default)());
 app.use(_checkCookie.default); // set our view engine
 
 app.engine('handlebars', exphbs.engine);
-app.set('view engine', 'handlebars'); // routes
+app.set('view engine', 'handlebars'); // check our list of api keys
 
-app.use('/', _index.default); // face the world
+(0, _checkMasterList.default)(); // middlewares
+
+app.use('/country', _checkApiKey.default);
+app.use('/profile', _checkAuth.default); // routes
+
+app.use(_index.default);
+app.use(_auth.default);
+app.use(_countries.default);
+app.use(_years.default);
+app.use(_pollutants.default); // face the world
 
 const hotPort = app.get('port');
 const server = app.listen(hotPort, () => {

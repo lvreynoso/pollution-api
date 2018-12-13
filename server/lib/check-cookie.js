@@ -11,8 +11,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // check-cookie.js
 const checkCookie = (req, res, next) => {
-  console.log(`Checking authentication!`);
-
+  // console.log(`Checking authentication!`);
   if (typeof req.cookies.nToken === `undefined` || req.cookies.nToken === null) {
     req.user = null;
   } else {

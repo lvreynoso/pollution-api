@@ -18,14 +18,14 @@ _mongoose.default.Promise = global.Promise;
 _mongoose.default.connect(uri, {
   useNewUrlParser: true
 }, function (err, db) {
-  _assert.default.equal(null, err);
+  _assert.default.equal(null, err); // console.log("Connected successfully to database");
+  // db.close(); turn on for testing
 
-  console.log("Connected successfully to database"); // db.close(); turn on for testing
 });
 
 _mongoose.default.connection.on("error", console.error.bind(console, "MongoDB connection Error:"));
 
-_mongoose.default.set("debug", true);
+_mongoose.default.set("debug", false);
 
 var _default = _mongoose.default.connection;
 exports.default = _default;

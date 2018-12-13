@@ -5,11 +5,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+require("core-js/modules/es6.regexp.to-string");
+
 var _express = _interopRequireDefault(require("express"));
 
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 var _user = _interopRequireDefault(require("../models/user.js"));
+
+var _Keys = _interopRequireDefault(require("../models/Keys.js"));
+
+var _generateApiKey = _interopRequireDefault(require("../lib/generate-api-key.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21,13 +27,29 @@ auth.get('/sign-up', (req, res) => {
   res.render('sign-up');
 });
 auth.post('/sign-up', async (req, res) => {
-  const user = new _user.default(req.body);
+  let user = new _user.default(req.body);
+  let newAPIKey = await (0, _generateApiKey.default)().catch(err => {
+    console.log(err);
+  }); // very important that we use it as a string
+
+  newAPIKey = newAPIKey.toString();
+  user.key = newAPIKey;
   const result = await user.save().catch(err => {
     console.log(err);
     return res.status(400).send({
       err: err
     });
   });
+  const masterKey = await _Keys.default.findOne({
+    level: 'master'
+  }).catch(err => {
+    console.log(err);
+    return res.status(500).send({
+      err: err
+    });
+  });
+  masterKey.list.set(newAPIKey, true);
+  masterKey.save();
 
   const token = _jsonwebtoken.default.sign({
     _id: user._id
@@ -86,6 +108,18 @@ auth.post(`/login`, async (req, res) => {
       httpOnly: true
     });
     res.redirect(`/`);
+  });
+});
+auth.get('/profile', async (req, res) => {
+  const query = {
+    _id: req.user._id
+  };
+  const user = await _user.default.findOne(query).catch(err => {
+    console.log(err);
+    return res.status(500).send(err);
+  });
+  res.render('profile', {
+    user: user
   });
 });
 var _default = auth;

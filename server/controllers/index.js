@@ -13,11 +13,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const index = _express.default.Router();
 
 index.get('/', (req, res) => {
-  const currentUser = req.user;
-  console.log(req.cookies);
+  const currentUser = req.user; // console.log(req.user);
+
   res.render('index', {
     currentUser
   });
+});
+index.get('/help', (req, res) => {
+  res.render('help');
 });
 var _default = index;
 exports.default = _default;
