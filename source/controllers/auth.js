@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 const auth = express.Router()
 
 // models
-import User from '../models/user.js'
+import User from '../models/User.js'
 import Keys from '../models/Keys.js'
 
 // api generator
