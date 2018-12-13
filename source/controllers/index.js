@@ -9,4 +9,8 @@ index.get('/', (req, res) => {
     res.render('index', { currentUser })
 })
 
+index.get('/help', (req, res) => {
+    res.render('help')
+})
+
 export default index;

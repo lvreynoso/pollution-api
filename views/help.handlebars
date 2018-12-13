@@ -1,0 +1,25 @@
+<div class="container">
+    <h1>Pollution API Help</h1>
+    <h3>What is the Pollution API?</h3>
+    <p>The Pollution API is an easy way to read and access a database of pollution data
+    , listed by country.</p>
+    <h3>How do I use the API?</h3>
+    <p>First, <a href="/sign-up">sign up</a> for an account. An API key will be created for you, which you
+    can view on your <a href="/profile">profile</a>. You can then make API requests in the following format:</p>
+    <p>For countries, use their internationally standardized three letter country code. For Canada, for example, you
+    would use the country code 'CAN' like so:</p>
+    <p>http://pollutionapi.hostname/country/CAN?key=yourapikeyhere</p>
+    <p>This will return a country object with a list of years. To get data from
+    an individual year, e.g. 2016, add /year/2016 to the end of the request url.</p>
+    <p>http://pollutionapi.hostname/country/CAN/year/2016?key=yourapikeyhere</p>
+    <p>The year object returned will have a list of pollutant objects with the
+    associated emissions data for that pollutant for that country in that particular
+    year. If you want just one pollutant, like Carbon Dioxide for example, add
+    that pollutant's "slug" - it's name in lower case, with spaces separated by dashes -
+    at the end of the url like so: /pollutant/carbon-dioxide. The whole request url will then
+    look like so:</p>
+    <p>http://pollutionapi.hostname/country/CAN/year/2016/pollutant/carbon-dioxide?key=yourapikeyhere</p>
+    <p>To add data, simply make a POST request to the proper url minus the country code / year / slug.
+    To update data, make a PUT request to the appropriate url.</p>
+    <p><a href="/">Go back</a></p>
+</div>
