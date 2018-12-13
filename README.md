@@ -1,8 +1,6 @@
 # pollution-api
-Custom API to get and enter pollution data for countries and companies
-# plogic
 ## About
-A web app to teach logic through circuit puzzles!
+Custom API to get and enter pollution data for countries and companies
 ## Installing
 * Clone project and run the command `npm install`.
 ## Developing
