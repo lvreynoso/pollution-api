@@ -3,7 +3,7 @@
 ## About
 Custom API to get and enter pollution data for countries and companies
 ## Installing
-* Clone project and run the command `npm install`.
+* Clone project and run the command `npm install`. Make sure to add a `SECRET` key in your `.env`.
 ## Developing
 * You can run the command `npm run dev` to start a babel-node server using nodemon. Browser access is at `http://localhost:3000/`.
 ## Building
