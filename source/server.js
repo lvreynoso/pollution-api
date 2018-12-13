@@ -52,6 +52,7 @@ checkMasterList();
 
 // middlewares
 app.use('/country', checkApiKey)
+app.use('/profile', checkAuth)
 
 // routes
 app.use(index);
