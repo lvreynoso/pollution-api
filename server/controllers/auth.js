@@ -11,7 +11,7 @@ var _express = _interopRequireDefault(require("express"));
 
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
-var _user = _interopRequireDefault(require("../models/user.js"));
+var _User = _interopRequireDefault(require("../models/User.js"));
 
 var _Keys = _interopRequireDefault(require("../models/Keys.js"));
 
@@ -27,7 +27,7 @@ auth.get('/sign-up', (req, res) => {
   res.render('sign-up');
 });
 auth.post('/sign-up', async (req, res) => {
-  let user = new _user.default(req.body);
+  let user = new _User.default(req.body);
   let newAPIKey = await (0, _generateApiKey.default)().catch(err => {
     console.log(err);
   }); // very important that we use it as a string
@@ -76,7 +76,7 @@ auth.post(`/login`, async (req, res) => {
   const query = {
     username: username
   };
-  const user = await _user.default.findOne(query, `username password`).catch(err => {
+  const user = await _User.default.findOne(query, `username password`).catch(err => {
     console.log(err);
   });
 
@@ -114,7 +114,7 @@ auth.get('/profile', async (req, res) => {
   const query = {
     _id: req.user._id
   };
-  const user = await _user.default.findOne(query).catch(err => {
+  const user = await _User.default.findOne(query).catch(err => {
     console.log(err);
     return res.status(500).send(err);
   });
